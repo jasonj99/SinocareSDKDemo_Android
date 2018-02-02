@@ -46,14 +46,14 @@ manifest的配置主要包括添加权限,代码示例如下：
 
 ## 2.5 填写服务和key
  填写服务，填写AccessKey和填写SecretKey;
-
+```xml
     <service
        android:name="com.sinocare.bluetoothle.SN_BluetoothLeService"
        android:enabled="true" >
      <meta-data android:name="AccessKey" android:value="分配给贵公司的accessKey"></meta-data>
     <meta-data android:name="SecretKey" android:value="分配给贵公司的SecretKey"></meta-data>
-     </service>
-
+    </service>
+```
 其中AccessKey 和 SecretKey 为SDK权限访问相关的Key
 服务为蓝牙相关的服务，包名固定为com.sinocare.bluetoothle.SN_BluetoothLeService 
 
@@ -77,23 +77,48 @@ manifest的配置主要包括添加权限,代码示例如下：
 SN_MainHandler.getBlueToothInstance(this);
  
 ## 3.2 搜索设备
-    searchBlueToothDevice(SC_BlueToothSearchCallBack<BlueToothInfo> device)
-         SC_BlueToothSearchCallBack<BlueToothInfo> device 为异步返回类
-    实现函数 public void onBlueToothSeaching(BlueToothInfo newDevice) 
-    返回搜索到的蓝牙设备信息 详细请查询API doc
+```Java
+        Sn_MainHandler.searchBlueToothDevice(new SC_BlueToothSearchCallBack<BlueToothInfo>() {
+                    @Override
+                    public void onBlueToothSeaching(BlueToothInfo newDevice) {
+			//返回搜索到的设备，每次返回一个，分多次返回 
+                    }
+                });
+```
 
 ## 3.3 连接
 场景：搜索到设备后，选择需要连接的设备；
 安稳连接设备：
+```java
     connectBlueTooth(BluetoothDevice device, SC_BlueToothCallBack callback，ProtocolVersion.WL_1) ;
+```
 安稳+air ：
+```java
  connectBlueTooth(BluetoothDevice device, SC_BlueToothCallBack callback，ProtocolVersion.WL_WEIXIN_BLE) ;
+```
 真睿True Metrix Air：
+```java
  connectBlueTooth(BluetoothDevice device, SC_BlueToothCallBack callback，ProtocolVersion.TRUE_METRIX_AIR) ;
- 备注:只支持同一时刻，一台手机只能连接一台血糖仪。断开后可连接其他设备
+```
+备注:只支持同一时刻，一台手机只能连接一台血糖仪。断开后可连接其他设备
+```java
+//例子
+      Sn_MainHandler.connectBlueTooth(device, new SC_BlueToothCallBack() {
+                @Override
+                public void onConnectFeedBack(int result) {
+                    if(result == 16){
+                        LogUtil.log(TAG, "onConnectFeedBack-----------success");
+                    }else {
+                        LogUtil.log(TAG, "onConnectFeedBack-----------fail");
+                    }
+                }
+            }, ProtocolVersion.WL_1);
+```
 
 ## 3.4 读当前测试数据
+```java
     readCurrentTestData(SC_CurrentDataCallBack<BloodSugarData> currentTestValue) 
+```
      读当前数据(只要在插试条测试后才有效)
     SC_CurrentDataCallBack 提供了接收数据和状态的接口；详细请参照doc 
 
