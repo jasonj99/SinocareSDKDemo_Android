@@ -6,9 +6,9 @@ SinocareSDK 是三诺生物传感股份有限公司的蓝牙血糖仪连接的SD
 SinocareSDK 主要是通过lib sn_care_sdk.jar方式提供给第三发。
 
 ## 1.2 手机设备的Android系统版本和蓝牙版本要求
-安稳+air版，需要SinocareSDK支持android 4.3及以上操作系统，支持蓝牙4.0，支持ble
-蓝牙WL-1血糖仪（直连版），需要SinocareSDK支持android 4.0及以上操作系统，支持蓝牙3.0和蓝牙4.0 ble
-真睿True Metrix Air版，需要SinocareSDK支持android 4.3及以上操作系统，支持蓝牙4.0，支持ble
+		安稳+air版，需要SinocareSDK支持android 4.3及以上操作系统，支持蓝牙4.0，支持ble
+		蓝牙WL-1血糖仪（直连版），需要SinocareSDK支持android 4.0及以上操作系统，支持蓝牙3.0和蓝牙4.0 ble
+		真睿True Metrix Air版，需要SinocareSDK支持android 4.3及以上操作系统，支持蓝牙4.0，支持ble
 
 # 2. 集成方法
 ## 2.1  获得AccessKey和SecretKey
@@ -34,15 +34,15 @@ manifest的配置主要包括添加权限,代码示例如下：
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
 ## 2.4 权限及用途
-ACCESS_NETWORK_STATE(必须)  用于检测联网方式，区分用户设备使用的是2G、3G或是WiFi
-READ_PHONE_STATE(必须)   用于获取用户设备的IMEI，通过IMEI和mac来唯一的标识用户。
-BLUETOOTH (必须)   用于蓝牙和设备通信所需。
-BLUETOOTH_ADMIN (必须)   用于蓝牙和设备通信所需。
-WRITE_EXTERNAL_STORAGE (必须)   用于底层数据缓存
-ACCESS_NETWORK_STATE(必须)  用于允许应用程序联网，以便向我们的服务器端发送数据。
-INTERNET(须)  用于允许应用程序联网，以便向我们的服务器端发送数据。
-ACCESS_FINE_LOCATION (必须)    用于允许应用程序访问设备位置。
-ACCESS_COARSE_LOCATION (必须)    用于允许应用程序访问设备位置。
+		ACCESS_NETWORK_STATE(必须)  用于检测联网方式，区分用户设备使用的是2G、3G或是WiFi
+		READ_PHONE_STATE(必须)   用于获取用户设备的IMEI，通过IMEI和mac来唯一的标识用户。
+		BLUETOOTH (必须)   用于蓝牙和设备通信所需。
+		BLUETOOTH_ADMIN (必须)   用于蓝牙和设备通信所需。
+		WRITE_EXTERNAL_STORAGE (必须)   用于底层数据缓存
+		ACCESS_NETWORK_STATE(必须)  用于允许应用程序联网，以便向我们的服务器端发送数据。
+		INTERNET(须)  用于允许应用程序联网，以便向我们的服务器端发送数据。
+		ACCESS_FINE_LOCATION (必须)    用于允许应用程序访问设备位置。
+		ACCESS_COARSE_LOCATION (必须)    用于允许应用程序访问设备位置。
 
 ## 2.5 填写服务和key
  填写服务，填写AccessKey和填写SecretKey;
