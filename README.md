@@ -7,10 +7,8 @@ SinocareSDK 主要是通过lib sn_care_sdk.jar方式提供给第三发。
 
 ## 1.2 手机设备的Android系统版本和蓝牙版本要求
 安稳+air版，需要SinocareSDK支持android 4.3及以上操作系统，支持蓝牙4.0，支持ble
-
-蓝牙WL-1血糖仪（微信版）,需要SinocareSDK支持android 4.0及以上操作系统，支持蓝牙3.0
-
-蓝牙WL-1血糖仪（直连版），需要SinocareSDK支持android 4.0及以上操作系统，支持蓝牙3.0或许蓝牙4.0 ble
+蓝牙WL-1血糖仪（直连版），需要SinocareSDK支持android 4.0及以上操作系统，支持蓝牙3.0和蓝牙4.0 ble
+真睿True Metrix Air版，需要SinocareSDK支持android 4.3及以上操作系统，支持蓝牙4.0，支持ble
 
 # 2. 集成方法
 ## 2.1  获得AccessKey和SecretKey
@@ -73,13 +71,10 @@ ACCESS_COARSE_LOCATION (必须)    用于允许应用程序访问设备位置。
 
 # 3.接口说明
 
-## 3.1 初始化SDK
-如果targetSdkVersion 小于23，不需要6.0权限处理，则直接在application中
-    initSDK(context);
-    
-如果是targetSdkVersion 大于等于23，需要6.0权限处理，则需要在启动页面或
-者程序主界面中获取权限后，再做初始化动作
- initSDK(context);
+## 3.1 android 系统权限获取
+如果targetSdkVersion 小于23，不需要6.0权限处理。
+如果是targetSdkVersion 大于等于23，需要6.0权限处理，则需要在启获取权限后，再能获取
+SN_MainHandler.getBlueToothInstance(this);
  
 ## 3.2 搜索设备
     searchBlueToothDevice(SC_BlueToothSearchCallBack<BlueToothInfo> device)
@@ -93,7 +88,8 @@ ACCESS_COARSE_LOCATION (必须)    用于允许应用程序访问设备位置。
     connectBlueTooth(BluetoothDevice device, SC_BlueToothCallBack callback，ProtocolVersion.WL_1) ;
 安稳+air ：
  connectBlueTooth(BluetoothDevice device, SC_BlueToothCallBack callback，ProtocolVersion.WL_WEIXIN_BLE) ;
- 
+真睿True Metrix Air：
+ connectBlueTooth(BluetoothDevice device, SC_BlueToothCallBack callback，ProtocolVersion.TRUE_METRIX_AIR) ;
  备注:只支持同一时刻，一台手机只能连接一台血糖仪。断开后可连接其他设备
 
 ## 3.4 读当前测试数据
