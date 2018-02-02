@@ -87,7 +87,8 @@ SN_MainHandler.getBlueToothInstance(this);
 ```
 
 ## 3.3 连接
-场景：搜索到设备后，选择需要连接的设备；
+场景：搜索到设备后，选择需要连接的设备；		
+
 安稳连接设备：
 ```java
     connectBlueTooth(BluetoothDevice device, SC_BlueToothCallBack callback，ProtocolVersion.WL_1) ;
