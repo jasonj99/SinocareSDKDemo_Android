@@ -28,7 +28,7 @@ manifest的配置主要包括添加权限,代码示例如下：
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-   	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -123,25 +123,35 @@ SN_MainHandler.getBlueToothInstance(this);
     SC_CurrentDataCallBack 提供了接收数据和状态的接口；详细请参照doc 
 
 ## 3.5 注册监测血糖值
+```java
     registerReceiveBloodSugarData(SC_CurrentDataCallBack<BloodSugarData> currentTestValue)
+```
     注册监听后，当设备状态或者有测试血糖值可监听，并返回数据和状态；
 
 ## 3.6 读历史数据
+```java
     readHistoryDatas(SC_DataCallBack<java.util.ArrayList<BloodSugarData>> list) 
+```    
     读取历史数据(测试状态下无效)
-    读取设备存储的历史数据（最高存储200条） 历史数据以包的形式发送，当收到数据后，
+    历史数据以包的形式发送，当收到数据后，
     通过onReceiveSucess(T datas, int currentPackage, int totalPackages)
-
-    数据返回接口 currentPackage 为当前包，totalPackages为总包，每包的数据量通过
-    datas.size 获取。
+    数据返回接口 currentPackage 为当前包，totalPackages为总包，每包的数据量通过datas.size 获取。
+    
 ## 3.8 时间校正
+```java
     setMCTime(Date date, SC_TimeSetCmdCallBack timeCallback)
+```
     设置后血糖仪的当前时间将通过timeCallback.onTimeSetCmdFeedback回调返回。
+    
 ## 3.9 设置验证码
+```java
     modifyCode(byte code, SC_ModifyCodeSetCmdCallBack modifyCodeBack)
+``` 
     验证码的取值范围为2-40，设置后血糖仪的当前时间将通过modifyCodeBack.onModifyCodeCmdFeedback回调返回。
-    trividia和WL_WEIXIN_BLE类型的血糖仪不支持该接口。
+    目前只有安稳WL_1类型的血糖仪支持该接口。
+    
 ## 3.10广播监听状态变化
+```java
     //广播监听SDK ACTION
 	private final BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
 		@Override
@@ -157,6 +167,7 @@ SN_MainHandler.getBlueToothInstance(this);
 		
 		}
 	};
+```
 
 # 4. 血糖仪的错误码和状态码
 ## 4.1 与Sinocare设备通讯状态的枚举
