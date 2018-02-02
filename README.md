@@ -75,7 +75,23 @@ manifest的配置主要包括添加权限,代码示例如下：
 如果targetSdkVersion 小于23，不需要6.0权限处理。
 如果是targetSdkVersion 大于等于23，需要6.0权限处理，则需要在启获取权限后，再能获取
 SN_MainHandler.getBlueToothInstance(this);
- 
+```Java
+        AndPermission.with(MainActivity.this)
+                .permission(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        snMainHandler = SN_MainHandler.getBlueToothInstance(MainActivity.this);
+                    }
+                }).onDenied(new Action() {
+            @Override
+            public void onAction(List<String> permissions) {
+                Toast.makeText(mContext, "请先允许用户权限", Toast.LENGTH_SHORT).show();
+            }
+        }).start();
+```
+demo 中是集成的 compile 'com.yanzhenjie:permission:2.0.0-alpha'，接入sdk开发者可以自己其他方式实现
+
 ## 3.2 搜索设备
 ```Java
         Sn_MainHandler.searchBlueToothDevice(new SC_BlueToothSearchCallBack<BlueToothInfo>() {
@@ -114,6 +130,16 @@ SN_MainHandler.getBlueToothInstance(this);
                     }
                 }
             }, ProtocolVersion.WL_1);
+```
+
+记住页面结束一定要关闭连接
+```java
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Sn_MainHandler.disconnectDevice();
+        unregisterReceiver(mBtReceiver);
+    }
 ```
 
 ## 3.4 读当前测试数据
