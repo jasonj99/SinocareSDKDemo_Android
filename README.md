@@ -137,8 +137,19 @@ demo 中是集成的 compile 'com.yanzhenjie:permission:2.0.0-alpha'，接入sdk
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Sn_MainHandler.disconnectDevice();
+        snMainHandler.disconnectDevice();
         unregisterReceiver(mBtReceiver);
+    }
+```
+
+整个应用退出，要记得销毁
+```java
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (snMainHandler != null) {
+            snMainHandler.close();
+        }
     }
 ```
 
