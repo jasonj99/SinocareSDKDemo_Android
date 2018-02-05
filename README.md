@@ -57,17 +57,8 @@ manifest的配置主要包括添加权限,代码示例如下：
 其中AccessKey 和 SecretKey 为SDK权限访问相关的Key
 服务为蓝牙相关的服务，包名固定为com.sinocare.bluetoothle.SN_BluetoothLeService 
 
-## 2.6 接入场景
-
-### 2.6.1 鉴权过程
+## 2.6 鉴权过程
 ![](https://github.com/sinocare2017/SinocareSDKDemo_Android/blob/master/uml/1.png)
-
-### 2.6.2 建立连接及通信
-![](https://github.com/sinocare2017/SinocareSDKDemo_Android/blob/master/uml/2.png)
-![](https://github.com/sinocare2017/SinocareSDKDemo_Android/blob/master/uml/22.png)
-
-### 2.6.3 状态返回和数据发送
-![](https://github.com/sinocare2017/SinocareSDKDemo_Android/blob/master/uml/3.png)
 
 # 3.接口说明
 
