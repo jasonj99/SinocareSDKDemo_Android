@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SinocareSDKDemo.iml" filepath="$PROJECT_DIR$/SinocareSDKDemo.iml" />
+      <module fileurl="file://E:\git\SinocareSDKDemo_Android\SinocareSDKDemo.iml" filepath="E:\git\SinocareSDKDemo_Android\SinocareSDKDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SinocareSDKDemo_Android.iml" filepath="$PROJECT_DIR$/SinocareSDKDemo_Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

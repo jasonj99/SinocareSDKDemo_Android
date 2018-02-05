@@ -1,5 +1,6 @@
-package sdk.sinocare.com.sinocaresdkdemo;
+package sdk.sinocare.com.sinocaresdk;
 
+import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,16 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-public class MsgListAdapter extends BaseAdapter {
-    private ArrayList<CommunicationActivity.deviceListItem> list;
+public class DevicesListAdapter extends BaseAdapter{
+	private ArrayList<MainActivity.SiriListItem> list;
     private LayoutInflater mInflater;
-    private Context context;
-    public MsgListAdapter(Context context, ArrayList<CommunicationActivity.deviceListItem> l) {
-    	list = l;
+  
+    public DevicesListAdapter(Context context, ArrayList<MainActivity.SiriListItem> list2) {
+    	list = list2;
 		mInflater = LayoutInflater.from(context);
-		this.context = context;
     }
 
     public int getCount() {
@@ -37,7 +35,7 @@ public class MsgListAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
     	ViewHolder viewHolder = null;
-    	CommunicationActivity.deviceListItem item=list.get(position);
+    	MainActivity.SiriListItem item=list.get(position);
         if(convertView == null){
         	convertView = mInflater.inflate(R.layout.list_item, null);          
         	viewHolder=new ViewHolder(
@@ -59,8 +57,7 @@ public class MsgListAdapter extends BaseAdapter {
         	viewHolder.child.setBackgroundResource(R.mipmap.msgbox_send);
         }
         viewHolder.msg.setText(item.message);    
-        //LogUtil.log("data", item.message.trim());
-        System.out.println(item.message.trim());
+        
         return convertView;
     }
     

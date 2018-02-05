@@ -1,5 +1,4 @@
-package sdk.sinocare.com.sinocaresdkdemo;
-
+package sdk.sinocare.com.sinocaresdk;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +8,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class DevicesListAdapter extends BaseAdapter{
-	private ArrayList<MainActivity.SiriListItem> list;
+public class MsgListAdapter extends BaseAdapter {
+    private ArrayList<DeviceListItem> list;
     private LayoutInflater mInflater;
-  
-    public DevicesListAdapter(Context context, ArrayList<MainActivity.SiriListItem> list2) {
-    	list = list2;
+    private Context context;
+    public MsgListAdapter(Context context, ArrayList<DeviceListItem> l) {
+    	list = l;
 		mInflater = LayoutInflater.from(context);
+		this.context = context;
     }
 
     public int getCount() {
@@ -36,7 +36,7 @@ public class DevicesListAdapter extends BaseAdapter{
 
     public View getView(int position, View convertView, ViewGroup parent) {
     	ViewHolder viewHolder = null;
-    	MainActivity.SiriListItem item=list.get(position);
+        DeviceListItem item=list.get(position);
         if(convertView == null){
         	convertView = mInflater.inflate(R.layout.list_item, null);          
         	viewHolder=new ViewHolder(
@@ -58,7 +58,8 @@ public class DevicesListAdapter extends BaseAdapter{
         	viewHolder.child.setBackgroundResource(R.mipmap.msgbox_send);
         }
         viewHolder.msg.setText(item.message);    
-        
+        //LogUtil.log("data", item.message.trim());
+        System.out.println(item.message.trim());
         return convertView;
     }
     
@@ -72,4 +73,15 @@ public class DevicesListAdapter extends BaseAdapter{
               
           }
     }
+
+    public static class DeviceListItem {
+        String message;
+        boolean isSiri;//是否为命令开始
+
+        public DeviceListItem(String msg, boolean siri) {
+            message = msg;
+            isSiri = siri;
+        }
+    }
+
 }

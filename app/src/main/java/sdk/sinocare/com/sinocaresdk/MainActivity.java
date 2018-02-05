@@ -1,12 +1,13 @@
-package sdk.sinocare.com.sinocaresdkdemo;
+package sdk.sinocare.com.sinocaresdk;
 
+import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -18,25 +19,31 @@ import android.widget.Toast;
 import com.sinocare.Impl.SC_BlueToothSearchCallBack;
 import com.sinocare.domain.BlueToothInfo;
 import com.sinocare.handler.SN_MainHandler;
+import com.sinocare.protocols.ProtocolVersion;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import sdk.sinocare.com.sinocaresdk.widget.PopupWindowChooseType;
 
 /**
- * 主界面
+ * 主界面,搜索设备
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements PopupWindowChooseType.OpClick {
 
     private ListView mListView;
     private ArrayList<SiriListItem> list;
     private DevicesListAdapter mAdapter;
     private Context mContext = null;
-    private SN_MainHandler Sn_MainHandler = null;
-    private Button searchButton, commandButton, disconnectButton, clearButton;
+    private SN_MainHandler snMainHandler = null;
+    private Button searchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hud_main);
+        setContentView(R.layout.activity_main);
         init();
     }
 
@@ -61,9 +68,6 @@ public class MainActivity extends Activity {
      */
     private void initView() {
         searchButton = (Button) findViewById(R.id.bt_search);
-        commandButton = (Button) findViewById(R.id.bt_command);
-        disconnectButton = (Button) findViewById(R.id.bt_disconnect);
-        clearButton = (Button) findViewById(R.id.bt_clear);
         mListView = (ListView) findViewById(R.id.list);
         mListView.setAdapter(mAdapter);
         mListView.setFastScrollEnabled(true);
@@ -75,21 +79,21 @@ public class MainActivity extends Activity {
      */
     private void init() {
         mContext = this;
-        Sn_MainHandler = SN_MainHandler.getBlueToothInstance();
         initData();
         initView();
         initEvent();
+        initSnHandler();
     }
 
     /**
      * 未连接状态界面刷新
      */
     private void setActivityInIdleState() {
-        commandButton.setVisibility(View.GONE);
+        if (snMainHandler == null) {
+            return;
+        }
         searchButton.setVisibility(View.VISIBLE);
-        disconnectButton.setVisibility(View.GONE);
-        clearButton.setVisibility(View.GONE);
-        if (Sn_MainHandler.isSearching()) {
+        if (snMainHandler.isSearching()) {
             searchButton.setText("停止搜索");
         } else {
             searchButton.setText("搜索/连接");
@@ -99,27 +103,31 @@ public class MainActivity extends Activity {
     private OnClickListener searchButtonClickListener = new OnClickListener() {
         @Override
         public void onClick(View arg0) {
-            if (Sn_MainHandler.isConnecting()) {
+            if (snMainHandler == null) {
+                initSnHandler();
+                return;
+            }
+            if (snMainHandler.isConnecting()) {
                 Toast.makeText(mContext, "正在断开，请稍等", Toast.LENGTH_SHORT).show();
-                Sn_MainHandler.disconnectDevice();
+                snMainHandler.disconnectDevice();
                 return;
             }
             list.clear();
             mAdapter.notifyDataSetChanged();
-            if (!Sn_MainHandler.isBlueToothEnable()) {
+            if (!snMainHandler.isBlueToothEnable()) {
                 Intent enableIntent = new Intent(
                         BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableIntent, 3);
             }
-            if (Sn_MainHandler.isConnected()) {
-                Sn_MainHandler.disconnectDevice();
+            if (snMainHandler.isConnected()) {
+                snMainHandler.disconnectDevice();
                 searchButton.setText("搜索/连接");
-            } else if (Sn_MainHandler.isSearching()) {
-                Sn_MainHandler.cancelSearch();
+            } else if (snMainHandler.isSearching()) {
+                snMainHandler.cancelSearch();
                 searchButton.setText("停止搜索");
             } else {
                 searchButton.setText("搜索/连接");
-                Sn_MainHandler.searchBlueToothDevice(new SC_BlueToothSearchCallBack<BlueToothInfo>() {
+                snMainHandler.searchBlueToothDevice(new SC_BlueToothSearchCallBack<BlueToothInfo>() {
                     @Override
                     public void onBlueToothSeaching(BlueToothInfo newDevice) {
 
@@ -143,48 +151,64 @@ public class MainActivity extends Activity {
         }
     };
 
+    /**
+     * 一定要先获取权限
+     */
+    private void initSnHandler() {
+        AndPermission.with(MainActivity.this)
+                .permission(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        snMainHandler = SN_MainHandler.getBlueToothInstance(MainActivity.this);
+                    }
+                }).onDenied(new Action() {
+            @Override
+            public void onAction(List<String> permissions) {
+                Toast.makeText(mContext, "请先允许用户权限", Toast.LENGTH_SHORT).show();
+            }
+        }).start();
+    }
+
     private OnItemClickListener mDeviceClickListener = new OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             final SiriListItem item = list.get(arg2);
-            AlertDialog.Builder StopDialog = new AlertDialog.Builder(mContext);//定义一个弹出框对象
-            StopDialog.setTitle("是否连接设备？");
-            StopDialog.setMessage(item.message);
-            StopDialog.setPositiveButton("连接", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Sn_MainHandler.cancelSearch();
-                    Intent intent = new Intent(MainActivity.this, CommunicationActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("device", item.info.getDevice());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            });
-            StopDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            StopDialog.show();
+            PopupWindowChooseType popupWindowChooseType = new PopupWindowChooseType(MainActivity.this, item.info.getDevice());
+            popupWindowChooseType.setOpClick(MainActivity.this);
+            popupWindowChooseType.showAtLocation(searchButton, Gravity.CENTER, 0, 0);
         }
     };
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        // 为了确保设备上蓝牙能使用, 如果当前蓝牙设备没启用,弹出对话框向用户要求授予权限来启用
-        if (!Sn_MainHandler.isBlueToothEnable()) {
-            Intent enableIntent = new Intent(
-                    BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableIntent, 3);
+    protected void onDestroy() {
+        super.onDestroy();
+        if (snMainHandler != null) {
+            snMainHandler.close();
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //作为SDK时销毁Activity不关闭Handler，保持蓝牙通信不断开
-        //导航软件请在主进程退出时调用close()方法关闭蓝牙通信模块
-        Sn_MainHandler.close();
+    public void goTestActivity(ProtocolVersion protocolVersion, BluetoothDevice device) {
+        if (snMainHandler == null) {
+            return;
+        }
+        snMainHandler.cancelSearch();
+        Intent intent = new Intent();
+        switch (protocolVersion) {
+            case WL_1:
+                intent.setClass(MainActivity.this, WLOneDemoActivity.class);
+                break;
+            case TRUE_METRIX_AIR:
+                intent.setClass(MainActivity.this, MetrixAirDemoActivity.class);
+                break;
+            case WL_WEIXIN_AIR:
+                intent.setClass(MainActivity.this, WLAirDemoActivity.class);
+                break;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("device", device);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public class SiriListItem {

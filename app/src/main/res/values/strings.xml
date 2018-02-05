@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SinocareSDKDemo</string>
+    <string name="app_name">SinocareSDKTool</string>
+    <string name="title_activity_base">BaseActivity</string>
 </resources>

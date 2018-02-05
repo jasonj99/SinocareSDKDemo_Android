@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="sdk.sinocare.com.sinocaresdkdemo">
+          package="sdk.sinocare.com.sinocaresdk">
+
     <uses-feature
         android:name="android.hardware.bluetooth_le"
-        android:required="true" />
+        android:required="true"/>
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
-        android:name=".BleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@android:style/Theme.Holo.Light">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CommunicationActivity" />
+        <activity android:name=".WLOneDemoActivity"
+        android:label="安稳Wl-1型蓝牙演示"/>
+        <activity android:name=".WLAirDemoActivity"
+        android:label="安稳+Air型蓝牙演示"/>
+        <activity android:name=".MetrixAirDemoActivity"
+        android:label="真睿TRUE METRIX AIR 蓝牙演示"/>
 
         <service
             android:name="com.sinocare.bluetoothle.SN_BluetoothLeService"
-            android:enabled="true" >
-            <meta-data android:name="AccessKey" android:value="贵公司自己的accessKey"></meta-data>
-            <meta-data android:name="SecretKey" android:value="贵公司自己的SecretKey"></meta-data>
+            android:enabled="true">
+            <meta-data
+                android:name="AccessKey"
+                android:value="ak09170a73c9d74fb3b5e69342f79baceb"/>
+            <meta-data
+                android:name="SecretKey"
+                android:value="sk96dc5e6a7dee4787a4b6f91d9368eca4"/>
         </service>
+
     </application>
+
 </manifest>

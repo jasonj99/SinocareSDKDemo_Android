@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF00C27E"
+            android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/cmd_dialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffffff"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="选择操作"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/btn_commad_9"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="获取最新一条数据"/>
+
+        <Button
+            android:id="@+id/btn_commad_11"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="获取所有历史数据"
+            android:visibility="visible"/>
+
+        <Button
+            android:id="@+id/btn_commad_4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="获取设备的剩余电量"/>
+
+    </LinearLayout>
+
+</ScrollView>
