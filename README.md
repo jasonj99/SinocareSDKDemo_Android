@@ -60,6 +60,9 @@ manifest的配置主要包括添加权限,代码示例如下：
 ## 2.6 鉴权过程
 ![](https://github.com/sinocare2017/SinocareSDKDemo_Android/blob/master/uml/1.png)
 
+## 2.7 演示动画
+![](https://github.com/sinocare2017/SinocareSDKDemo_Android/blob/master/uml/ezgif-1-075b946353.gif)
+
 # 3.接口说明
 
 ## 3.1 android 系统权限获取
