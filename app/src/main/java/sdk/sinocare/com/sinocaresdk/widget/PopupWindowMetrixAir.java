@@ -81,6 +81,7 @@ public class PopupWindowMetrixAir extends PopupWindow {
         Button firstRecordButton = (Button) popupWindow_view.findViewById(R.id.btn_commad_9);
         Button historyButton = (Button) popupWindow_view.findViewById(R.id.btn_commad_11);
         Button getBatteryButton = (Button) popupWindow_view.findViewById(R.id.btn_commad_4);
+        Button btnSetTime = (Button) popupWindow_view.findViewById(R.id.btn_commad_set_time);
 
         firstRecordButton.setOnClickListener(new View.OnClickListener() {
 
@@ -115,6 +116,17 @@ public class PopupWindowMetrixAir extends PopupWindow {
             }
         });
 
+        btnSetTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+                if (opClick != null) {
+                    opClick.setDate();
+                }
+                disMissPopup();
+            }
+        });
+
         View layMenu = popupWindow_view.findViewById(R.id.cmd_dialog);
         layMenu.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -142,6 +154,8 @@ public class PopupWindowMetrixAir extends PopupWindow {
         void historyData();//所有历史数据
 
         void getBattery();//获取设备电量
+
+        void setDate();//设置设备电量
     }
 
 }

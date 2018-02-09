@@ -20,6 +20,7 @@ import android.widget.ListView;
 import com.sinocare.Impl.SC_BatteryCallBack;
 import com.sinocare.Impl.SC_BlueToothCallBack;
 import com.sinocare.Impl.SC_CurrentDataCallBack;
+import com.sinocare.Impl.TrueMetrixTimeCMDCallBack;
 import com.sinocare.domain.BloodSugarData;
 import com.sinocare.handler.SN_MainHandler;
 import com.sinocare.protocols.ProtocolVersion;
@@ -241,6 +242,24 @@ public class MetrixAirDemoActivity extends Activity implements PopupWindowMetrix
             public void onBatteryCallBack(int percent) {
                 list.add(new DeviceListItem("获取到设备的剩余电量为" + percent + "%", false));
                 loadHandler.sendEmptyMessage(REFRESH);
+            }
+        });
+    }
+
+    @Override
+    public void setDate() {
+        list.add(new DeviceListItem("命令:设置设备的时间", true));
+        loadHandler.sendEmptyMessage(REFRESH);
+        snMainHandler.requestSetDate(new TrueMetrixTimeCMDCallBack() {
+            @Override
+            public void onTimeSetCmdFeedback(int arg) {
+                if(arg == 0){
+                    list.add(new DeviceListItem("设置设备的时间失败" ,false));
+                    loadHandler.sendEmptyMessage(REFRESH);
+                }else {
+                    list.add(new DeviceListItem("设置设备的时间成功" ,false));
+                    loadHandler.sendEmptyMessage(REFRESH);
+                }
             }
         });
     }

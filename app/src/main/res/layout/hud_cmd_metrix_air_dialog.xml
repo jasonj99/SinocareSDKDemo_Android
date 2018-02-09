@@ -39,6 +39,12 @@
             android:layout_height="wrap_content"
             android:text="获取设备的剩余电量"/>
 
+        <Button
+            android:id="@+id/btn_commad_set_time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="设置设备的时间"/>
+
     </LinearLayout>
 
 </ScrollView>

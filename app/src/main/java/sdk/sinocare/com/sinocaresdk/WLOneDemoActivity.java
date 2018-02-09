@@ -38,10 +38,10 @@ import sdk.sinocare.com.sinocaresdk.widget.PopupWindowWLOne;
 import sdk.sinocare.com.sinocaresdk.MsgListAdapter.DeviceListItem;
 
 /**
- * @file_name WLOneDemoActivity.java
- * @description:  //蓝牙WL-1型
  * @author zhongzhigang
- * created at 2018/1/30
+ *         created at 2018/1/30
+ * @file_name WLOneDemoActivity.java
+ * @description: //蓝牙WL-1型
  */
 public class WLOneDemoActivity extends Activity implements PopupWindowWLOne.OpClick {
 
@@ -80,9 +80,9 @@ public class WLOneDemoActivity extends Activity implements PopupWindowWLOne.OpCl
                 @Override
                 public void onConnectFeedBack(int result) {
                     // TODO Auto-generated method stub
-                    if(result == 16){
+                    if (result == 16) {
                         LogUtil.log(TAG, "onConnectFeedBack-----------success");
-                    }else {
+                    } else {
                         LogUtil.log(TAG, "onConnectFeedBack-----------fail");
                     }
                 }
